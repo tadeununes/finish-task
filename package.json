@@ -1,0 +1,13 @@
+{
+  "name": "finish-task",
+  "version": "2.0.0",
+  "description": "Agent Skill that safely finishes an already-implemented software change: Git lifecycle, ticket closing, spec/context-doc sync triggering, changelog, and release version bumps/notes.",
+  "bin": {
+    "finish-task": "./install.js"
+  },
+  "engines": {
+    "node": ">=16.7.0"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

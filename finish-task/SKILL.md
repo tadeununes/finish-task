@@ -10,7 +10,9 @@ metadata:
 
 Use this skill to move an already-defined software change safely to completion — from repository-state inspection through commit, pull request, merge, ticket closing, spec/context-doc sync triggering, changelog upkeep, and cleanup.
 
-This skill is intentionally **agent-neutral** and **engineering-framework-neutral**. It may be used by Claude Code, Codex, Antigravity, OpenCode, or another Agent Skills-compatible coding agent without changing the repository's engineering methodology.
+This skill's instructions and references are written to be tool-neutral — the same guidance applies whether followed by Claude Code, Codex, Antigravity, OpenCode, or another Agent Skills-compatible coding agent.
+
+What is **not** guaranteed to carry over is the `disable-model-invocation` control below: it is a Claude Code-specific extension to the [Agent Skills](https://agentskills.io) spec, not part of the open standard. On another tool, confirm independently how that tool controls automatic skill invocation before relying on this skill never firing on its own.
 
 ## Core Boundary
 
