@@ -33,7 +33,7 @@ function printHelp() {
 finish-task installer
 
 Usage:
-  npx github:<owner>/finish-task [options]
+  npx github:tadeununes/finish-task [options]
 
 Options:
   --target=<claude|codex|antigravity>   Which tool to install for (default: claude)
