@@ -3,7 +3,7 @@ name: finish-task
 description: "Safely finishes an already-implemented software change — Git lifecycle (branches, commits, pushes, pull requests, CI gates, merges, worktrees, cleanup), ticket closing, spec/context-doc sync triggering, changelog maintenance, and release version bumps/notes at a version cut. Use when an agent needs to inspect repository state, prepare Conventional Commits, push, create/update a pull request, verify merge readiness, merge when authorized, close the originating ticket, trigger a spec/CLAUDE.md/AGENTS.md sync check, update the changelog, or clean up. This skill governs finishing a task, not the software-development lifecycle that produced it: it does not own requirements, planning, implementation strategy, TDD, or code-review methodology."
 disable-model-invocation: true
 metadata:
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 # Finish Task
@@ -72,10 +72,12 @@ Use this precedence order:
 1. explicit user instruction for the current task;
 2. repository governance, protected-branch rules, and provider rulesets;
 3. repository-local instructions such as `AGENTS.md`, `CONTRIBUTING.md`, or equivalent;
-4. established repository conventions observable from branches, commits, pull requests, and automation;
+4. established repository conventions observable from branches, pull requests, and automation;
 5. defaults from this skill.
 
-Do not replace a valid repository convention with this skill's preference.
+Do not replace a valid repository convention with this skill's preference — with one deliberate exception.
+
+**Commit and PR-title format is decided only by levels 1–3** (explicit instruction, enforced rules such as commitlint or a ruleset, or written repository instructions). The style of existing commit history is weak evidence and does **not** override this skill's default: when no formal rule exists, use Conventional Commits with the standardized emoji even if past commits are plain prose, and say so in one line in the report (e.g. "history does not follow Conventional Commits; applied the skill default"). If tooling rejects emoji, keep Conventional Commits and omit the emoji — see [references/safety.md](references/safety.md) §5.
 
 ## Progressive References
 
@@ -234,25 +236,29 @@ Never assume the working tree contains only the current agent's work.
 
 Before choosing naming, commit format, merge method, or synchronization behavior, look for repository policy.
 
-Possible evidence includes:
+Formal evidence (can override this skill's defaults):
 
 ```text
-AGENTS.md
+AGENTS.md / CLAUDE.md
 CONTRIBUTING.md
-README.md
-.github/
-.gitlab/
+README.md (when it states a rule)
+.github/ / .gitlab/
 commitlint configuration
 release tooling
 branch protection / rulesets
-recent commit history
-recent pull requests
 CI configuration
 ```
 
-If the repository already defines branch naming, commit format, signing, required checks, merge strategy, or release conventions, follow them.
+Weak evidence (informs branch naming, merge strategy, and similar habits, but does **not** override the commit/PR-title format default):
 
-Use this skill's defaults only when a stronger convention cannot be established.
+```text
+recent commit history
+recent pull requests
+```
+
+If the repository formally defines branch naming, commit format, signing, required checks, merge strategy, or release conventions, follow them.
+
+Use this skill's defaults when no formal rule exists. For commit and PR-title format, the default is Conventional Commits + standardized emoji, regardless of what past commits look like.
 
 ## Step 3 — Preserve Existing and Unrelated Work
 
@@ -336,7 +342,7 @@ Use [references/commits.md](references/commits.md).
 
 Prefer path-specific or patch staging when unrelated work exists.
 
-Default commit shape when the repository has no different convention:
+Default commit shape, used unless the user or a formal repository rule (Policy Precedence levels 1–3) says otherwise:
 
 ```text
 <type>[optional scope][optional !]: <emoji> <description>
@@ -418,7 +424,7 @@ Before creating a PR:
 
 Do not create duplicate PRs.
 
-Default PR title when the repository has no different convention:
+Default PR title, used unless the user or a formal repository rule (Policy Precedence levels 1–3) says otherwise:
 
 ```text
 <type>[optional scope][optional !]: <emoji> <description>
@@ -565,8 +571,9 @@ Before declaring the requested Git lifecycle stage complete, verify the applicab
 - [ ] correct branch/base were used;
 - [ ] worktree isolation was used only when valuable;
 - [ ] staged changes matched the intended logical unit;
-- [ ] commit format followed repository policy or this skill's default;
+- [ ] commit format followed a formal rule (user, enforced tooling, written instructions) or else this skill's Conventional Commits + emoji default — not merely the style of past commits;
 - [ ] standardized emoji matched the commit/PR type when defaults applied;
+- [ ] any deviation from the default (or default applied over non-conforming history) was stated in the report;
 - [ ] type remained first for automation compatibility;
 - [ ] push used the correct upstream and no unsafe force operation;
 - [ ] no duplicate PR was created;

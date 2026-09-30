@@ -29,10 +29,12 @@ Use this precedence order:
 1. explicit user instruction for the current task;
 2. repository governance and protected-branch/ruleset requirements;
 3. repository-local instructions such as `AGENTS.md`, `CONTRIBUTING.md`, or equivalent;
-4. established repository conventions observable from branches, commits, PRs, and automation;
+4. established repository conventions observable from branches, PRs, and automation;
 5. defaults from this skill.
 
-Never replace a valid repository convention merely because this skill prefers another default.
+Never replace a valid repository convention merely because this skill prefers another default — except for commit and PR-title format.
+
+**Commit and PR-title format is decided only by levels 1–3.** The style of existing commit history is weak evidence and does not override this skill's Conventional Commits + emoji default. When no formal rule exists, apply the default and state in the report that history did not conform.
 
 ## 3. Inspect Before Mutating
 
@@ -125,6 +127,8 @@ The standardized emojis are a human-readable visual layer. They must not replace
 - machine-readable footers.
 
 Do not introduce arbitrary emojis when a repository uses commit linting or release automation unless the resulting format is known to be accepted.
+
+If commit linting or release automation rejects the emoji, or it is unknown whether it is accepted, keep the Conventional Commit and omit the emoji (`feat(auth): add refresh-token rotation`). If a formal rule requires a different format entirely, follow that rule.
 
 ## 6. Protected and Default Branches
 
