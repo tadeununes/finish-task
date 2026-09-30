@@ -103,9 +103,9 @@ Do not require a provider-specific CLI such as `gh` when another supported inter
 
 ## 6. PR Title
 
-Follow repository convention first.
+Follow a formal rule first (user instruction, PR-title ruleset/CI check, `AGENTS.md`/`CONTRIBUTING.md`). The style of past PR titles is not a formal rule.
 
-If none exists, use the same Conventional Commit + emoji profile used for commits:
+Otherwise, use the same Conventional Commit + emoji profile used for commits (if a squash merge turns the title into the final commit message, the same tooling caveats from `safety.md` §5 apply):
 
 ```text
 <type>[optional scope][optional !]: <emoji> <description>
@@ -371,8 +371,8 @@ Before considering the lifecycle complete, verify:
 - [ ] correct head branch;
 - [ ] correct base branch;
 - [ ] no duplicate PR;
-- [ ] PR title follows repository convention;
-- [ ] under skill defaults, PR title uses `type(scope): emoji description`;
+- [ ] PR title follows a formal rule if one exists;
+- [ ] otherwise PR title uses `type(scope): emoji description` (even if past PR titles did not);
 - [ ] standardized emoji matches the PR's principal type;
 - [ ] type remains first for automation compatibility;
 - [ ] title and description accurately describe the change;

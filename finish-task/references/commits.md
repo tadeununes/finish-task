@@ -4,23 +4,25 @@ This document defines how an agent should prepare, create, format, and verify co
 
 The objective is a history that is safe, reviewable, visually scannable on GitHub, understandable to humans, and compatible with Conventional Commits tooling and release automation.
 
-## 1. Follow Repository Convention First
+## 1. Look for a Formal Commit Rule First
 
-Before creating commits, inspect the repository's existing conventions.
+Before creating commits, look for a **formal** commit-format rule.
 
 Look for:
 
+- an explicit instruction from the user;
 - `CONTRIBUTING.md`;
-- `AGENTS.md`;
-- commit lint configuration;
-- release tooling;
-- recent commit history;
+- `AGENTS.md` / `CLAUDE.md`;
+- commit lint configuration or commit hooks;
+- release tooling and PR-title rulesets;
 - issue or ticket conventions;
 - signing requirements.
 
-If the repository already defines a commit format, use it.
+If one of these defines a commit format, use it.
 
-Otherwise, use the Conventional Commits + standardized emoji profile in this document.
+Recent commit history is **not** a formal rule. If history is plain prose or otherwise non-conforming but no formal rule exists, still use the Conventional Commits + standardized emoji profile in this document, and note in the report that history did not follow it.
+
+If tooling rejects the emoji, keep the Conventional Commit and omit the emoji (see `safety.md` §5).
 
 ## 2. Commit Only Task-Related Changes
 
@@ -75,7 +77,7 @@ Tests that directly specify the behavior introduced by a change may belong in th
 
 ## 4. Conventional Commits Default
 
-When the repository has no different convention, use Conventional Commits 1.0.0 with the standardized emoji profile:
+Unless the user or a formal repository rule (§1) says otherwise, use Conventional Commits 1.0.0 with the standardized emoji profile:
 
 ```text
 <type>[optional scope][optional !]: <emoji> <description>
@@ -296,11 +298,11 @@ Do not report a clean working tree if unrelated or intentionally uncommitted cha
 
 Before considering the commit complete, verify:
 
-- [ ] repository convention was followed;
+- [ ] a formal rule (user, enforced tooling, written instructions) was followed if one exists — existing history alone did not override the default;
 - [ ] only task-related changes were staged;
 - [ ] the commit is a coherent logical unit;
 - [ ] the message describes the actual change;
-- [ ] Conventional Commits was used when no stronger repository convention exists;
+- [ ] Conventional Commits + emoji was used when no formal rule exists (non-conforming history was noted in the report);
 - [ ] the standardized emoji matches the selected type;
 - [ ] the type remains the first token for automation compatibility;
 - [ ] no fabricated issue IDs or validation claims were added;
