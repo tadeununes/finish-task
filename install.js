@@ -82,15 +82,20 @@ function main() {
   fs.mkdirSync(path.dirname(targetDir), { recursive: true });
 
   if (fs.existsSync(targetDir)) {
-    const backup = `${targetDir}.bak.${Date.now()}`;
+    // Back up outside the skills tree: a leftover "finish-task.bak.*" folder next to
+    // the install carries its own SKILL.md and can shadow or duplicate the skill.
+    const backup = path.join(os.tmpdir(), 'finish-task-backups', `${SKILL_NAME}.${Date.now()}`);
     console.log(`Existing ${targetDir} found — backing up to ${backup}`);
-    fs.renameSync(targetDir, backup);
+    fs.mkdirSync(path.dirname(backup), { recursive: true });
+    fs.cpSync(targetDir, backup, { recursive: true });
+    fs.rmSync(targetDir, { recursive: true, force: true });
   }
 
   fs.cpSync(SOURCE_DIR, targetDir, { recursive: true });
 
+  const { version } = require('./package.json');
   console.log('');
-  console.log(`Installed finish-task (${target}, ${scope} scope) to:`);
+  console.log(`Installed finish-task v${version} (${target}, ${scope} scope) to:`);
   console.log(`  ${targetDir}`);
   console.log('');
   console.log('Next steps:');
