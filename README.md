@@ -37,6 +37,20 @@ npx github:tadeununes/finish-task --target=codex --project # e.g. Codex, current
 
 `--target` and `--project`/`--global` combine freely. Run `npx github:tadeununes/finish-task --help` for the full list.
 
+### 🔄 Update
+
+Re-run the same command you used to install, with the same `--target` / `--project` flags:
+
+```bash
+npx github:tadeununes/finish-task
+```
+
+The installer replaces the existing copy and prints the installed version (`Installed finish-task v2.1.0 ...`). The previous copy is backed up to your OS temp folder (`finish-task-backups/`), **outside** the skills directory, so it can't shadow the new one. Then restart your agent/session.
+
+Upgrading from **2.0.x**: older installer versions left a `finish-task.bak.<timestamp>` folder next to the install. Delete any such folder from your skills directory — it contains its own `SKILL.md` and can cause duplicate or missing skills.
+
+**What's new in 2.1.0:** Conventional Commits + emoji (`feat(scope): ✨ description`) is now the default for commit messages and PR titles. Only an explicit instruction, an enforced rule (commitlint, a ruleset), or written instructions (`AGENTS.md`, `CONTRIBUTING.md`) override it — the style of past commits no longer does. If tooling rejects emoji, it keeps Conventional Commits and drops the emoji.
+
 ### 🛠️ Manual (any other Agent Skills-compatible tool)
 
 Clone the repo and copy the `finish-task/` folder into that tool's own skills directory:
@@ -59,7 +73,7 @@ This is third-party tooling, not maintained here — worth knowing about, but yo
 ### ✅ After installing
 
 1. **Restart** your agent/session — a brand-new top-level skills directory is only picked up at start, not mid-session.
-2. **Confirm it loaded** — ask `What skills are available?`, or run `/doctor` in Claude Code.
+2. **Confirm it loaded** — ask `What skills are available?`, or run `/doctor` in Claude Code. To confirm the version, check `metadata.version` in the installed `SKILL.md` (should be `2.1.0`).
 3. **Invoke it explicitly** — `/finish-task` (or your tool's equivalent mention). See [🔒 Why explicit invocation only](#-why-explicit-invocation-only).
 
 ## 🗂️ Structure
@@ -69,7 +83,7 @@ finish-task/
 ├── SKILL.md                    orchestrator — 18 numbered steps + a separate Release Lifecycle
 └── references/
     ├── safety.md                precedence, destructive-operation guardrails, recovery
-    ├── commits.md                Conventional Commits + emoji profile
+    ├── commits.md                Conventional Commits + emoji profile (default; only formal rules override it)
     ├── pull-requests.md          branching, push, PR lifecycle, CI/review gates, merge, cleanup
     ├── spec-sync.md               triggers (does not author) a spec/CLAUDE.md/AGENTS.md review
     ├── ticket-closing.md         closes the originating ticket by the tracker's actual mechanism
@@ -112,7 +126,7 @@ If you install this on a tool other than Claude Code, **confirm independently ho
 
 ## 🩺 Troubleshooting: skill not appearing
 
-- **Check the path.** The command name comes from the directory name, not the `name:` field in `SKILL.md`. It must be exactly `finish-task/SKILL.md` under one of the directories below — no leftover folder from a previous version alongside it.
+- **Check the path.** The command name comes from the directory name, not the `name:` field in `SKILL.md`. It must be exactly `finish-task/SKILL.md` under one of the directories below — no leftover folder from a previous version alongside it (for example `finish-task.bak.*` left by installer 2.0.x — delete it).
 
   | Tool | Project scope | Global scope |
   |---|---|---|
